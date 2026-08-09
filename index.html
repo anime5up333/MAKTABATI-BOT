@@ -4,629 +4,333 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مكتبتي | بوت الكتب الأول على تليجرام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #04080F;
-  --surface: #0B1623;
-  --surface2: #111D2E;
-  --cyan: #00C8F5;
-  --cyan-dim: rgba(0,200,245,0.12);
+  --bg:     #04080F;
+  --surf:   #0B1623;
+  --cyan:   #00C8F5;
   --orange: #FF6B35;
-  --white: #F2F7FF;
-  --muted: rgba(242,247,255,0.45);
+  --white:  #F2F7FF;
+  --muted:  rgba(242,247,255,0.45);
   --border: rgba(0,200,245,0.15);
+  --px: clamp(16px,4vw,48px);
 }
 
+/* RESET */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--white); overflow-x:hidden; line-height:1.6; }
+a { text-decoration:none; color:inherit; }
 
-body {
-  font-family: 'Tajawal', sans-serif;
-  background: var(--bg);
-  color: var(--white);
-  overflow-x: hidden;
+/* PROGRESS BAR */
+#progress-bar {
+  position:fixed; top:0; left:0; z-index:300;
+  height:3px; width:0%;
+  background:linear-gradient(90deg,var(--cyan),var(--orange));
+  pointer-events:none;
 }
 
-/* ─── NAV ─── */
+/* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 36px;
-  background: rgba(4,8,15,0.88);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px; padding:12px var(--px);
+  background:rgba(4,8,15,0.92);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
 }
-.nav-logo {
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--white);
-  display: flex; align-items: center; gap: 10px;
-}
-.nav-logo em { color: var(--cyan); font-style: normal; }
-.nav-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--cyan);
-  background: var(--cyan-dim);
-  border: 1px solid rgba(0,200,245,0.2);
-  border-radius: 100px;
-  padding: 4px 12px;
-  letter-spacing: 1px;
-}
-.nav-pill .live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--cyan);
-  animation: liveBlink 1.4s ease infinite;
-}
-@keyframes liveBlink {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:0.3; transform:scale(0.7); }
-}
-.nav-btn {
-  background: var(--cyan);
-  color: #04080F;
-  padding: 10px 26px;
-  border-radius: 100px;
-  font-family: 'Tajawal', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.nav-btn:hover { transform: scale(1.05); box-shadow: 0 0 28px rgba(0,200,245,0.4); }
+.nav-logo { font-size:clamp(17px,4vw,22px); font-weight:900; display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.nav-logo em { color:var(--cyan); font-style:normal; }
+.nav-pill { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:var(--cyan); background:rgba(0,200,245,.1); border:1px solid rgba(0,200,245,.2); border-radius:100px; padding:4px 12px; white-space:nowrap; }
+@media(max-width:420px){ .nav-pill { display:none; } }
+.live-dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); animation:blink 1.4s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+.nav-btn { background:var(--cyan); color:#04080F; padding:9px clamp(14px,3vw,26px); border-radius:100px; font-family:'Tajawal',sans-serif; font-size:clamp(13px,3vw,15px); font-weight:800; transition:transform .2s,box-shadow .2s; white-space:nowrap; flex-shrink:0; }
+.nav-btn:active { transform:scale(.97); }
+@media(hover:hover){ .nav-btn:hover { transform:scale(1.05); box-shadow:0 0 28px rgba(0,200,245,.4); } }
 
-/* ─── HERO ─── */
+/* HERO */
 .hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 130px 24px 90px;
-  position: relative;
-  overflow: hidden;
+  position:relative; overflow:hidden;
+  min-height:100vh; min-height:100svh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  padding-top:clamp(80px,14vh,130px);
+  padding-bottom:clamp(40px,8vh,80px);
+  padding-left:var(--px); padding-right:var(--px);
 }
-
+/* canvas absolutely fills hero — no layout impact */
+#particles { position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 .grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,200,245,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,200,245,0.04) 1px, transparent 1px);
-  background-size: 50px 50px;
-  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
-  pointer-events: none;
+  position:absolute; top:0; left:0; right:0; bottom:0; z-index:0; pointer-events:none;
+  background-image: linear-gradient(rgba(0,200,245,.04) 1px,transparent 1px), linear-gradient(90deg,rgba(0,200,245,.04) 1px,transparent 1px);
+  background-size:50px 50px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 10%,transparent 100%);
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 10%,transparent 100%);
 }
+.hero-glow  { position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:min(700px,100%); height:min(500px,60vh); background:radial-gradient(ellipse,rgba(0,200,245,.10) 0%,transparent 70%); z-index:0; pointer-events:none; }
+.hero-glow2 { position:absolute; top:65%; left:20%; width:min(300px,50%); height:min(300px,40vh); background:radial-gradient(ellipse,rgba(255,107,53,.07) 0%,transparent 70%); z-index:0; pointer-events:none; }
 
-.hero-glow {
-  position: absolute;
-  top: 40%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px; height: 500px;
-  background: radial-gradient(ellipse, rgba(0,200,245,0.10) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-glow2 {
-  position: absolute;
-  top: 60%; left: 30%;
-  width: 300px; height: 300px;
-  background: radial-gradient(ellipse, rgba(255,107,53,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
+/* all hero content above canvas */
+.hero-badge,.hero-title,.hero-sub,.hero-cta,.scroll-cue { position:relative; z-index:1; }
 
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(0,200,245,0.07);
-  border: 1px solid rgba(0,200,245,0.25);
-  border-radius: 100px;
-  padding: 8px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--cyan);
-  margin-bottom: 30px;
-  position: relative;
-  z-index: 1;
-  animation: heroFade 0.7s ease both;
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,200,245,.07); border:1px solid rgba(0,200,245,.25); border-radius:100px;
+  padding:7px 18px; font-size:clamp(11px,3vw,13px); font-weight:600; color:var(--cyan);
+  margin-bottom:clamp(16px,3vw,28px); animation:fadeUp .7s ease both;
 }
-.hero-eyebrow .dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--cyan);
-  animation: liveBlink 1.4s ease infinite;
-  box-shadow: 0 0 6px var(--cyan);
-}
+.hero-badge .dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 6px var(--cyan); animation:blink 1.4s ease infinite; }
+.hero-title { font-size:clamp(38px,10vw,108px); font-weight:900; line-height:1.05; letter-spacing:-2px; margin-bottom:clamp(16px,3vw,28px); animation:fadeUp .7s ease .1s both; }
+@media(min-width:768px){ .hero-title { letter-spacing:-3px; } }
+.hero-title .c  { color:var(--cyan); }
+.hero-title .sk { color:rgba(0,200,245,.25); -webkit-text-stroke:2px rgba(0,200,245,.5); text-stroke:2px rgba(0,200,245,.5); }
+@supports(-webkit-text-stroke:1px transparent){ .hero-title .sk { color:transparent; } }
+.tw-cursor { display:inline-block; width:4px; height:.85em; background:var(--cyan); border-radius:2px; margin-left:4px; vertical-align:middle; animation:cursorBlink .75s ease infinite; box-shadow:0 0 10px var(--cyan); }
+@keyframes cursorBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+.hero-sub { font-size:clamp(14px,3vw,17px); font-weight:300; color:var(--muted); max-width:min(500px,90%); line-height:1.85; margin:0 auto clamp(24px,4vw,40px); animation:fadeUp .7s ease .2s both; }
+.hero-sub strong { color:var(--cyan); font-weight:700; }
+.hero-cta { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; width:100%; animation:fadeUp .7s ease .3s both; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 
-.hero-title {
-  font-size: clamp(54px, 11vw, 108px);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -3px;
-  position: relative;
-  z-index: 1;
-  animation: heroFade 0.7s ease 0.1s both;
-}
-.hero-title .c { color: var(--cyan); }
-.hero-title .stroke {
-  -webkit-text-stroke: 2px rgba(0,200,245,0.4);
-  color: transparent;
-}
+.scroll-cue { position:absolute; bottom:clamp(12px,3vh,28px); left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; color:rgba(242,247,255,.25); font-size:11px; letter-spacing:2px; animation:fadeUp .7s ease 1.2s both; pointer-events:none; }
+.scroll-arr { width:18px; height:18px; border-left:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(-45deg); animation:arrBounce 1.6s ease infinite; }
+@keyframes arrBounce { 0%,100%{transform:rotate(-45deg) translateY(0)} 50%{transform:rotate(-45deg) translateY(5px)} }
 
-.hero-sub {
-  font-size: 17px;
-  font-weight: 300;
-  color: var(--muted);
-  max-width: 500px;
-  line-height: 1.85;
-  margin: 28px auto 44px;
-  position: relative;
-  z-index: 1;
-  animation: heroFade 0.7s ease 0.2s both;
-}
+/* BUTTONS */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:100px; font-family:'Tajawal',sans-serif; font-weight:800; font-size:clamp(14px,3.5vw,16px); padding:clamp(12px,3vw,17px) clamp(20px,5vw,36px); transition:transform .25s,box-shadow .25s,border-color .25s,color .25s; white-space:nowrap; flex:1 1 140px; max-width:240px; }
+.btn-solid { background:var(--cyan); color:#04080F; position:relative; overflow:hidden; animation:pulseCTA 2.5s ease 2s infinite; }
+.btn-solid::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.2),transparent); opacity:0; transition:opacity .2s; }
+.btn-solid:active { transform:scale(.97); animation:none; }
+.btn-outline:active { transform:scale(.97); }
+@media(hover:hover){ .btn-solid:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,200,245,.38);} .btn-solid:hover::after{opacity:1;} .btn-outline:hover{transform:translateY(-3px);border-color:var(--cyan);color:var(--cyan);} }
+.btn-outline { background:transparent; color:var(--white); border:1px solid rgba(242,247,255,.18); }
+@keyframes pulseCTA { 0%,100%{box-shadow:0 0 0 0 rgba(0,200,245,.4)} 50%{box-shadow:0 0 0 16px rgba(0,200,245,0)} }
 
-.hero-cta {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
-  animation: heroFade 0.7s ease 0.3s both;
-}
+/* TICKER */
+.ticker { border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:13px 0; overflow:hidden; background:var(--surf); }
+.ticker-track { display:flex; width:max-content; animation:tickMove 28s linear infinite; }
+@media(hover:hover){ .ticker:hover .ticker-track { animation-play-state:paused; } }
+@keyframes tickMove { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.tick { display:flex; align-items:center; gap:8px; padding:0 clamp(14px,3vw,28px); font-size:clamp(11px,2.5vw,13px); font-weight:500; color:var(--muted); white-space:nowrap; }
+.tick b { color:var(--cyan); font-size:10px; }
+.tick-sep { opacity:.3; font-size:16px; }
 
-@keyframes heroFade {
-  from { opacity:0; transform:translateY(24px); }
-  to   { opacity:1; transform:translateY(0); }
-}
+/* STATS */
+.stats { display:grid; grid-template-columns:repeat(3,1fr); max-width:860px; margin:0 auto; padding:clamp(48px,8vw,100px) var(--px); gap:clamp(16px,3vw,32px); }
+.sbox { text-align:center; padding:0 clamp(8px,2vw,24px); position:relative; }
+.sbox:not(:last-child)::after { content:''; position:absolute; left:0; top:15%; bottom:15%; width:1px; background:linear-gradient(to bottom,transparent,var(--border),transparent); }
+.sn { display:block; font-size:clamp(32px,8vw,58px); font-weight:900; color:var(--cyan); line-height:1; margin-bottom:8px; letter-spacing:-1px; }
+.sl { font-size:clamp(11px,2.5vw,13px); color:var(--muted); }
+@media(max-width:420px){ .stats{grid-template-columns:1fr;} .sbox:not(:last-child)::after{top:auto;bottom:-12px;left:25%;right:25%;width:auto;height:1px;background:linear-gradient(to right,transparent,var(--border),transparent);} }
 
-.btn-main {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--cyan);
-  color: #04080F;
-  padding: 17px 36px;
-  border-radius: 100px;
-  font-size: 16px;
-  font-weight: 800;
-  text-decoration: none;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-  animation: pulseCTA 2.5s ease 2s infinite;
-}
-.btn-main::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.btn-main:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0,200,245,0.38); }
-.btn-main:hover::after { opacity: 1; }
+/* SECTIONS COMMON */
+.sec-label { text-align:center; font-size:11px; font-weight:800; letter-spacing:4px; color:var(--cyan); text-transform:uppercase; margin-bottom:12px; }
+.sec-title { text-align:center; font-size:clamp(24px,6vw,50px); font-weight:900; letter-spacing:-1px; margin-bottom:clamp(28px,5vw,56px); line-height:1.1; }
+.sec-title em { color:var(--cyan); font-style:normal; }
 
-@keyframes pulseCTA {
-  0%,100% { box-shadow: 0 0 0 0 rgba(0,200,245,0.4); }
-  50%      { box-shadow: 0 0 0 18px rgba(0,200,245,0); }
-}
+/* FEATURES */
+.feats { padding:0 var(--px) clamp(48px,8vw,100px); max-width:960px; margin:0 auto; }
+.feat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(10px,2vw,16px); }
+@media(max-width:560px){ .feat-grid{grid-template-columns:1fr;} }
+.fc { background:var(--surf); border:1px solid rgba(0,200,245,.1); border-radius:20px; padding:clamp(20px,4vw,34px); position:relative; overflow:hidden; transition:border-color .3s,box-shadow .3s; transform-style:preserve-3d; will-change:transform; }
+.fc::before { content:''; position:absolute; top:-30px; right:-30px; width:140px; height:140px; pointer-events:none; background:radial-gradient(circle,rgba(0,200,245,.07) 0%,transparent 70%); }
+.fc.wide { grid-column:1/-1; display:flex; align-items:center; gap:clamp(16px,3vw,40px); }
+.fc.or::before { background:radial-gradient(circle,rgba(255,107,53,.08) 0%,transparent 70%); }
+@media(hover:hover){ .fc:hover{border-color:rgba(0,200,245,.35);box-shadow:0 20px 50px rgba(0,0,0,.4);} .fc.or:hover{border-color:rgba(255,107,53,.35);} }
+@media(max-width:560px){ .fc.wide{flex-direction:column;align-items:flex-start;gap:12px;} .fc.wide .f-ico{font-size:40px!important;margin-bottom:0;} }
+.f-ico { font-size:clamp(28px,6vw,38px); margin-bottom:clamp(12px,2vw,18px); display:block; }
+.fc.wide .f-ico { font-size:clamp(44px,9vw,72px)!important; margin-bottom:0; flex-shrink:0; }
+.f-tag { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--cyan); opacity:.7; margin-bottom:8px; }
+.fc.or .f-tag { color:var(--orange); }
+.f-title { font-size:clamp(15px,3.5vw,20px); font-weight:800; margin-bottom:8px; line-height:1.3; }
+.f-desc  { font-size:clamp(12.5px,2.5vw,14px); color:var(--muted); line-height:1.75; font-weight:300; }
+.card-glare { position:absolute; inset:0; border-radius:inherit; opacity:0; pointer-events:none; transition:opacity .25s; z-index:2; }
 
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: transparent;
-  color: var(--white);
-  padding: 17px 36px;
-  border-radius: 100px;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid rgba(242,247,255,0.18);
-  transition: all 0.25s;
-}
-.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); }
+/* HOW IT WORKS */
+.steps { padding:0 var(--px) clamp(48px,8vw,100px); max-width:960px; margin:0 auto; }
+.steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,2vw,20px); }
+@media(max-width:600px){ .steps-grid{grid-template-columns:1fr;} }
+.step-card { background:var(--surf); border:1px solid rgba(0,200,245,.09); border-radius:20px; padding:clamp(20px,4vw,32px); text-align:center; transition:transform .3s,border-color .3s; }
+@media(hover:hover){ .step-card:hover{transform:translateY(-4px);border-color:rgba(0,200,245,.3);} }
+.step-num { display:inline-flex; align-items:center; justify-content:center; width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,rgba(0,200,245,.15),rgba(0,200,245,.05)); border:1px solid rgba(0,200,245,.25); font-size:20px; font-weight:900; color:var(--cyan); margin:0 auto clamp(12px,2vw,18px); }
+.step-title { font-size:clamp(14px,3vw,18px); font-weight:800; margin-bottom:8px; }
+.step-desc  { font-size:clamp(12px,2.5vw,14px); color:var(--muted); line-height:1.7; font-weight:300; }
+.step-desc strong { color:var(--cyan); font-weight:700; }
 
-.scroll-cue {
-  position: absolute;
-  bottom: 32px; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  color: rgba(242,247,255,0.25);
-  font-size: 11px; letter-spacing: 2px;
-  animation: heroFade 0.7s ease 1.2s both;
-}
-.scroll-arrow {
-  width: 20px; height: 20px;
-  border-left: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(-45deg);
-  animation: arrowBounce 1.6s ease infinite;
-}
-@keyframes arrowBounce {
-  0%,100% { transform: rotate(-45deg) translateY(0); }
-  50%      { transform: rotate(-45deg) translateY(5px); }
-}
+/* CATEGORIES */
+.cats { padding:0 var(--px) clamp(48px,8vw,100px); max-width:960px; margin:0 auto; }
+.cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(clamp(100px,18vw,150px),1fr)); gap:clamp(8px,1.5vw,14px); }
+.cat-card { background:var(--surf); border:1px solid rgba(0,200,245,.08); border-radius:14px; padding:clamp(12px,3vw,20px) 12px; text-align:center; transition:transform .25s,border-color .25s,background .25s; }
+@media(hover:hover){ .cat-card:hover{transform:translateY(-3px) scale(1.03);border-color:rgba(0,200,245,.3);background:rgba(0,200,245,.06);} }
+.cat-card:active { transform:scale(.97); }
+.cat-ico   { font-size:clamp(22px,5vw,32px); margin-bottom:8px; display:block; }
+.cat-label { font-size:clamp(10px,2.5vw,13px); font-weight:600; color:var(--muted); }
 
-/* ─── TICKER ─── */
-.ticker-wrap {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 13px 0;
-  overflow: hidden;
-  background: var(--surface);
-}
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: tickerMove 28s linear infinite;
-}
-@keyframes tickerMove {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.tick {
-  display: flex; align-items: center; gap: 10px;
-  padding: 0 28px;
-  font-size: 13px; font-weight: 500;
-  color: var(--muted); white-space: nowrap;
-}
-.tick b { color: var(--cyan); font-size: 11px; }
-.tick-sep { opacity: 0.3; font-size: 18px; }
+/* TESTIMONIALS */
+.testi { padding:0 var(--px) clamp(48px,8vw,100px); max-width:960px; margin:0 auto; }
+.testi-wrap { overflow:hidden; }
+.testi-track { display:flex; gap:clamp(10px,2vw,18px); animation:testiScroll 32s linear infinite; width:max-content; }
+@media(hover:hover){ .testi-track:hover{animation-play-state:paused;} }
+@keyframes testiScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.tcard { background:var(--surf); border:1px solid rgba(0,200,245,.1); border-radius:20px; padding:clamp(16px,3vw,26px); width:clamp(220px,60vw,300px); flex-shrink:0; }
+.tcard-stars { color:#f59e0b; font-size:13px; margin-bottom:10px; letter-spacing:2px; }
+.tcard-text  { font-size:clamp(12px,2.5vw,14px); color:var(--muted); line-height:1.7; margin-bottom:14px; font-weight:300; font-style:italic; }
+.tcard-user  { display:flex; align-items:center; gap:10px; }
+.tcard-ava   { width:34px; height:34px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; color:#fff; }
+.tcard-name  { font-size:13px; font-weight:700; display:block; }
+.tcard-role  { font-size:11px; color:var(--muted); font-weight:300; }
 
-/* ─── STATS ─── */
-.stats-row {
-  display: flex;
-  justify-content: center;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 80px 32px;
-  gap: 0;
-}
-.stat-box {
-  flex: 1; text-align: center; padding: 0 28px;
-  position: relative;
-}
-.stat-box:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  left: 0; top: 15%; bottom: 15%;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--border), transparent);
-}
-.stat-n {
-  display: block;
-  font-size: 58px; font-weight: 900;
-  color: var(--cyan); line-height: 1;
-  margin-bottom: 10px;
-  letter-spacing: -2px;
-}
-.stat-l {
-  font-size: 13px; color: var(--muted); font-weight: 400;
-}
+/* FAQ */
+.faq { padding:0 var(--px) clamp(48px,8vw,100px); max-width:720px; margin:0 auto; }
+.faq-list { display:flex; flex-direction:column; gap:10px; }
+.faq-item { background:var(--surf); border:1px solid rgba(0,200,245,.09); border-radius:14px; overflow:hidden; transition:border-color .25s; }
+.faq-item.open { border-color:rgba(0,200,245,.3); }
+.faq-q { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:clamp(14px,3vw,18px) clamp(16px,3vw,22px); cursor:pointer; font-size:clamp(13px,3vw,16px); font-weight:700; user-select:none; -webkit-user-select:none; transition:color .2s; }
+.faq-item.open .faq-q { color:var(--cyan); }
+.faq-icon { width:24px; height:24px; border-radius:50%; background:rgba(0,200,245,.1); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; transition:transform .3s,background .2s; }
+.faq-item.open .faq-icon { transform:rotate(45deg); background:rgba(0,200,245,.2); }
+.faq-a { max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.16,1,.3,1),padding .3s; font-size:clamp(12.5px,2.5vw,14.5px); color:var(--muted); font-weight:300; line-height:1.75; padding:0 clamp(16px,3vw,22px); }
+.faq-item.open .faq-a { max-height:300px; padding-bottom:clamp(14px,3vw,18px); }
 
-/* ─── FEATURES ─── */
-.features {
-  padding: 0 32px 100px;
-  max-width: 960px;
-  margin: 0 auto;
-}
-.sec-label {
-  text-align: center;
-  font-size: 11px; font-weight: 800;
-  letter-spacing: 4px;
-  color: var(--cyan);
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.sec-title {
-  text-align: center;
-  font-size: clamp(28px, 5vw, 50px);
-  font-weight: 900; letter-spacing: -1.5px;
-  margin-bottom: 56px; line-height: 1.1;
-}
-.sec-title em { color: var(--cyan); font-style: normal; }
+/* CTA BLOCK */
+.cta-wrap { padding:0 var(--px) clamp(48px,8vw,90px); }
+.cta-block { max-width:900px; margin:0 auto; background:linear-gradient(135deg,#0B1E30,#0D2240); border:1px solid rgba(0,200,245,.18); border-radius:28px; padding:clamp(36px,6vw,70px) clamp(20px,5vw,44px); text-align:center; position:relative; overflow:hidden; }
+.cta-block::before { content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:min(400px,80%); height:400px; pointer-events:none; background:radial-gradient(circle,rgba(0,200,245,.12) 0%,transparent 70%); }
+.cta-big { font-size:clamp(26px,7vw,64px); font-weight:900; letter-spacing:-1px; line-height:1.05; margin-bottom:14px; position:relative; z-index:1; }
+@media(min-width:768px){ .cta-big{letter-spacing:-2px;} }
+.cta-big em { color:var(--cyan); font-style:normal; }
+.cta-sub { color:var(--muted); font-size:clamp(13px,3vw,16px); margin-bottom:clamp(20px,4vw,36px); font-weight:300; position:relative; z-index:1; }
+.cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; position:relative; z-index:1; }
 
-.feat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.fcard {
-  background: var(--surface);
-  border: 1px solid rgba(0,200,245,0.1);
-  border-radius: 22px;
-  padding: 34px;
-  position: relative; overflow: hidden;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-  cursor: default;
-}
-.fcard:hover {
-  transform: translateY(-5px);
-  border-color: rgba(0,200,245,0.35);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,200,245,0.1);
-}
-.fcard::before {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
-  width: 140px; height: 140px;
-  background: radial-gradient(circle, rgba(0,200,245,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
-.fcard.wide {
-  grid-column: 1 / -1;
-  display: flex; align-items: center; gap: 40px;
-}
-.fcard.orange-accent::before {
-  background: radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%);
-}
-.fcard.orange-accent:hover { border-color: rgba(255,107,53,0.35); }
-.f-ico { font-size: 38px; margin-bottom: 18px; display: block; }
-.fcard.wide .f-ico { font-size: 72px; margin-bottom: 0; flex-shrink: 0; }
-.f-tag {
-  font-size: 10px; font-weight: 800; letter-spacing: 2px;
-  color: var(--cyan); opacity: 0.7; margin-bottom: 10px;
-}
-.fcard.orange-accent .f-tag { color: var(--orange); }
-.f-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.3; }
-.f-desc { font-size: 14px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+/* FOOTER */
+footer { border-top:1px solid var(--border); padding:clamp(18px,3vw,26px) var(--px); text-align:center; color:var(--muted); font-size:clamp(11px,2.5vw,13px); display:flex; align-items:center; justify-content:center; gap:clamp(8px,2vw,16px); flex-wrap:wrap; }
+footer a { color:var(--cyan); font-weight:700; }
+footer a:hover { text-decoration:underline; }
+.fsep { opacity:.3; }
 
-/* ─── CTA SECTION ─── */
-.cta-block {
-  margin: 0 32px 90px;
-  max-width: 900px;
-  margin-left: auto; margin-right: auto;
-  background: linear-gradient(135deg, #0B1E30 0%, #0D2240 100%);
-  border: 1px solid rgba(0,200,245,0.18);
-  border-radius: 28px;
-  padding: 70px 44px;
-  text-align: center;
-  position: relative; overflow: hidden;
-}
-.cta-block::before {
-  content: '';
-  position: absolute;
-  top: -80px; left: 50%; transform: translateX(-50%);
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(0,200,245,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-.cta-big {
-  font-size: clamp(34px, 6vw, 64px);
-  font-weight: 900; letter-spacing: -2px;
-  line-height: 1.05; margin-bottom: 18px;
-  position: relative; z-index: 1;
-}
-.cta-big em { color: var(--cyan); font-style: normal; }
-.cta-sub {
-  color: var(--muted); font-size: 16px;
-  margin-bottom: 38px; font-weight: 300;
-  position: relative; z-index: 1;
-}
-.cta-btns {
-  display: flex; gap: 14px;
-  justify-content: center; flex-wrap: wrap;
-  position: relative; z-index: 1;
-}
+/* BACK TO TOP */
+#back-top { position:fixed; bottom:clamp(16px,3vw,28px); right:clamp(16px,3vw,28px); z-index:190; width:44px; height:44px; border-radius:50%; background:var(--surf); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:18px; cursor:pointer; opacity:0; transform:translateY(12px); transition:opacity .3s,transform .3s,border-color .2s,background .2s; pointer-events:none; box-shadow:0 4px 16px rgba(0,0,0,.4); }
+#back-top.show { opacity:1; transform:translateY(0); pointer-events:auto; }
+@media(hover:hover){ #back-top:hover{background:rgba(0,200,245,.12);border-color:var(--cyan);} }
+#back-top:active { transform:scale(.93); }
 
-/* ─── FOOTER ─── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 26px 32px;
-  text-align: center;
-  color: var(--muted); font-size: 13px;
-  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
-}
-footer a { color: var(--cyan); text-decoration: none; font-weight: 700; }
-footer a:hover { text-decoration: underline; }
-.footer-sep { opacity: 0.3; }
+/* POPUPS */
+.popup-area { position:fixed; z-index:999; display:flex; flex-direction:column; gap:10px; pointer-events:none; bottom:16px; left:12px; right:auto; width:calc(100vw - 24px); max-width:300px; }
+@media(min-width:500px){ .popup-area{left:20px;bottom:20px;max-width:300px;} }
+@media(min-width:1024px){ .popup-area{left:28px;bottom:28px;max-width:312px;} }
+.notif { width:100%; background:rgba(11,22,35,.97); border:1px solid rgba(0,200,245,.18); border-radius:16px; padding:13px 15px; box-shadow:0 8px 32px rgba(0,0,0,.55); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); pointer-events:none; opacity:0; transform:translateX(-115%) scale(.97); transition:transform .42s cubic-bezier(.16,1,.3,1),opacity .35s ease; }
+.notif.in  { transform:translateX(0) scale(1); opacity:1; pointer-events:auto; }
+.notif.out { opacity:0; pointer-events:none; transform:translateX(-115%) scale(.95); transition:transform .35s ease,opacity .35s ease; }
+.notif.ad  { flex-direction:column; gap:0; padding:0; overflow:hidden; cursor:pointer; border-color:rgba(149,76,233,.3); background:rgba(16,8,32,.97); box-shadow:0 12px 40px rgba(0,0,0,.65); display:flex; }
+.notif.ad.in:hover { border-color:rgba(149,76,233,.55); }
+.notif.ad.in:active { transform:scale(.98); }
+.ad-head { display:flex; align-items:center; gap:10px; padding:13px 14px 10px; }
+.ad-ava  { width:38px; height:38px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.ad-meta { flex:1; min-width:0; }
+.ad-meta strong { display:block; font-size:13px; font-weight:800; color:#e0c8ff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ad-meta span { font-size:11px; color:rgba(224,200,255,.5); font-weight:300; }
+.ad-badge { flex-shrink:0; font-size:9px; font-weight:800; letter-spacing:1.5px; border-radius:100px; padding:3px 9px; text-transform:uppercase; }
+.ad-body  { font-size:12px; line-height:1.55; padding:8px 14px 12px; border-top:1px solid rgba(149,76,233,.12); color:rgba(224,200,255,.72); }
+.ad-foot  { display:flex; align-items:center; justify-content:space-between; padding:9px 14px; border-top:1px solid rgba(149,76,233,.1); }
+.ad-handle  { font-size:11.5px; font-weight:700; }
+.ad-cta-btn { font-size:11px; font-weight:800; padding:5px 12px; border-radius:100px; white-space:nowrap; }
 
-/* ─── POPUPS ─── */
-.popup-area {
-  position: fixed;
-  bottom: 24px; left: 24px;
-  z-index: 999;
-  display: flex; flex-direction: column-reverse; gap: 10px;
-  max-width: 290px;
-}
-.notif {
-  display: flex; align-items: center; gap: 12px;
-  background: rgba(11,22,35,0.95);
-  border: 1px solid rgba(0,200,245,0.18);
-  border-radius: 16px;
-  padding: 13px 15px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,200,245,0.08);
-  backdrop-filter: blur(16px);
-  transform: translateX(calc(-100% - 24px));
-  opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s;
-}
-.notif.in { transform: translateX(0); opacity: 1; }
-.notif.out { transform: translateX(calc(-100% - 24px)); opacity: 0; }
-.n-ava {
-  width: 38px; height: 38px; border-radius: 12px;
-  background: linear-gradient(135deg, var(--cyan), #0060A8);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
-}
-.n-body strong {
-  display: block; font-size: 13px; font-weight: 700;
-  color: var(--white); margin-bottom: 2px;
-}
-.n-body span { font-size: 11.5px; color: var(--muted); font-weight: 300; }
-.n-time { font-size: 10px; color: var(--cyan); margin-right: auto; flex-shrink: 0; opacity: 0.8; }
-
-/* ── AD POPUP ── */
-.notif.ad-notif {
-  border-color: rgba(149,76,233,0.35);
-  background: rgba(20,10,40,0.97);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(149,76,233,0.15), 0 0 24px rgba(149,76,233,0.08);
-  cursor: pointer;
-  text-decoration: none;
-  flex-direction: column;
-  gap: 10px;
-  padding: 14px 16px;
-}
-.notif.ad-notif:hover { border-color: rgba(149,76,233,0.6); transform: translateY(-2px) translateX(0) !important; }
-.ad-top { display: flex; align-items: center; gap: 10px; width: 100%; }
-.ad-badge {
-  font-size: 9px; font-weight: 800; letter-spacing: 1.5px;
-  color: #b47fea; background: rgba(149,76,233,0.15);
-  border: 1px solid rgba(149,76,233,0.3);
-  border-radius: 100px; padding: 2px 8px;
-  text-transform: uppercase; flex-shrink: 0;
-}
-.ad-ava {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: linear-gradient(135deg, #7c3aed, #4f1199);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0;
-  box-shadow: 0 0 14px rgba(124,58,237,0.4);
-}
-.ad-info strong {
-  display: block; font-size: 13px; font-weight: 800;
-  color: #e0c8ff; margin-bottom: 2px; line-height: 1.2;
-}
-.ad-info span { font-size: 11px; color: rgba(224,200,255,0.55); font-weight: 300; }
-.ad-desc {
-  font-size: 12px; color: rgba(224,200,255,0.7);
-  font-weight: 400; line-height: 1.5; width: 100%;
-  border-top: 1px solid rgba(149,76,233,0.15);
-  padding-top: 8px;
-}
-.ad-cta {
-  display: flex; align-items: center; justify-content: space-between;
-  width: 100%;
-}
-.ad-link {
-  font-size: 11px; font-weight: 700; color: #a855f7;
-  letter-spacing: 0.3px;
-}
-.ad-arrow { font-size: 14px; color: #a855f7; }
-
-/* ─── REVEAL ─── */
-.rv {
-  opacity: 0; transform: translateY(32px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
-}
-.rv.on { opacity: 1; transform: none; }
-.rv[data-delay="1"] { transition-delay: 0.1s; }
-.rv[data-delay="2"] { transition-delay: 0.2s; }
-.rv[data-delay="3"] { transition-delay: 0.3s; }
+/* REVEAL */
+.rv { opacity:0; transform:translateY(28px); transition:opacity .6s ease,transform .6s ease; }
+.rv.on { opacity:1; transform:none; }
+.rv[data-d="1"] { transition-delay:.1s; }
+.rv[data-d="2"] { transition-delay:.2s; }
+.rv[data-d="3"] { transition-delay:.3s; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<div id="progress-bar"></div>
+
 <nav>
   <div class="nav-logo">📚 <em>مكتبتي</em></div>
   <div class="nav-pill"><span class="live-dot"></span> مباشر</div>
-  <a href="https://t.me/Fff_uiBOT" target="_blank" class="nav-btn">ابدأ مجاناً ↗</a>
+  <a href="https://t.me/Fff_uiBOT" target="_blank" rel="noopener noreferrer" class="nav-btn">ابدأ مجاناً ↗</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="grid-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-glow2" aria-hidden="true"></div>
 
-  <div class="hero-eyebrow">
-    <span class="dot"></span>
-    أكبر مكتبة إلكترونية على تليجرام
-  </div>
+  <div class="hero-badge"><span class="dot"></span> أكبر مكتبة إلكترونية على تليجرام</div>
+
   <h1 class="hero-title">
-    كل الكتب<br><span class="c">في مكانٍ</span> <span class="stroke">واحد</span>
+    كل <span class="tw-cursor" aria-hidden="true"></span><span id="tw-word" class="c">الكتب</span><br>
+    <span class="c">في مكانٍ</span> <span class="sk">واحد</span>
   </h1>
+
   <p class="hero-sub">
-    مكتبتي — بوت يجمع آلاف الكتب الإلكترونية بتنظيم احترافي لا مثيل له على تليجرام. ابحث، اقرأ، واستمتع مجاناً.
+    مكتبتي — بوت يجمع آلاف الكتب الإلكترونية بتنظيم احترافي.<br>
+    اضغط <strong>/start</strong> وتصفّح عبر أزرار سهلة مجاناً.
   </p>
+
   <div class="hero-cta">
-    <a href="https://t.me/Fff_uiBOT" target="_blank" class="btn-main">🤖 فتح البوت</a>
-    <a href="https://t.me/admin" target="_blank" class="btn-ghost">📢 قناة البوت</a>
+    <a href="https://t.me/Fff_uiBOT" target="_blank" rel="noopener noreferrer" class="btn btn-solid">🤖 فتح البوت</a>
+    <a href="https://t.me/admin"      target="_blank" rel="noopener noreferrer" class="btn btn-outline">📢 قناة البوت</a>
   </div>
 
-  <div class="scroll-cue">
-    <div class="scroll-arrow"></div>
-    اكتشف أكثر
-  </div>
+  <div class="scroll-cue" aria-hidden="true"><div class="scroll-arr"></div> اكتشف أكثر</div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
+<div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <div class="tick"><b>📚</b> روايات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🧠</b> تطوير الذات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>💡</b> علوم وتكنولوجيا <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🕌</b> إسلاميات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>💼</b> أعمال وريادة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🎭</b> تاريخ وسير <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🌍</b> جغرافيا وثقافات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🧪</b> طب وصحة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>⚖️</b> قانون وسياسة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🎨</b> فنون وأدب <span class="tick-sep">·</span></div>
-    <!-- duplicate for seamless loop -->
-    <div class="tick"><b>📚</b> روايات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🧠</b> تطوير الذات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>💡</b> علوم وتكنولوجيا <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🕌</b> إسلاميات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>💼</b> أعمال وريادة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🎭</b> تاريخ وسير <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🌍</b> جغرافيا وثقافات <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🧪</b> طب وصحة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>⚖️</b> قانون وسياسة <span class="tick-sep">·</span></div>
-    <div class="tick"><b>🎨</b> فنون وأدب <span class="tick-sep">·</span></div>
+    <div class="tick"><b>📚</b>روايات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🧠</b>تطوير الذات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>💡</b>علوم وتكنولوجيا<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🕌</b>إسلاميات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>💼</b>أعمال وريادة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🎭</b>تاريخ وسير<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🌍</b>جغرافيا وثقافات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🧪</b>طب وصحة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>⚖️</b>قانون وسياسة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🎨</b>فنون وأدب<span class="tick-sep">·</span></div>
+    <div class="tick"><b>📚</b>روايات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🧠</b>تطوير الذات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>💡</b>علوم وتكنولوجيا<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🕌</b>إسلاميات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>💼</b>أعمال وريادة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🎭</b>تاريخ وسير<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🌍</b>جغرافيا وثقافات<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🧪</b>طب وصحة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>⚖️</b>قانون وسياسة<span class="tick-sep">·</span></div>
+    <div class="tick"><b>🎨</b>فنون وأدب<span class="tick-sep">·</span></div>
   </div>
 </div>
 
-<!-- STATS -->
-<div class="stats-row rv">
-  <div class="stat-box">
-    <span class="stat-n" data-count="10">0</span>
-    <span class="stat-l">آلاف كتاب إلكتروني</span>
-  </div>
-  <div class="stat-box">
-    <span class="stat-n">مجاني</span>
-    <span class="stat-l">100% بدون رسوم</span>
-  </div>
-  <div class="stat-box">
-    <span class="stat-n">24/7</span>
-    <span class="stat-l">متاح على مدار الساعة</span>
-  </div>
+<div class="stats rv">
+  <div class="sbox"><span class="sn" data-count="10">0</span><span class="sl">آلاف كتاب إلكتروني</span></div>
+  <div class="sbox"><span class="sn">مجاني</span><span class="sl">100% بدون رسوم</span></div>
+  <div class="sbox"><span class="sn">24/7</span><span class="sl">متاح على مدار الساعة</span></div>
 </div>
 
-<!-- FEATURES -->
-<section class="features">
+<section class="feats">
   <div class="sec-label rv">لماذا مكتبتي؟</div>
   <h2 class="sec-title rv">ميزات لا تجدها<br><em>في أي مكان آخر</em></h2>
-
   <div class="feat-grid">
-    <div class="fcard rv">
+    <div class="fc rv">
       <span class="f-ico">🗂️</span>
       <div class="f-tag">01 — تنظيم</div>
       <div class="f-title">تصنيف احترافي لكل كتاب</div>
-      <div class="f-desc">كل كتاب مُصنَّف بدقة حسب التخصص والمؤلف، تصفّح سريع ومريح دون أي تشويش</div>
+      <div class="f-desc">كل كتاب مُصنَّف بدقة حسب التخصص والمؤلف، تصفّح سريع ومريح</div>
     </div>
-
-    <div class="fcard orange-accent rv" data-delay="1">
-      <span class="f-ico">🔍</span>
-      <div class="f-tag" style="color:var(--orange)">02 — بحث</div>
-      <div class="f-title">بحث ذكي في ثوانٍ</div>
-      <div class="f-desc">اكتب اسم الكتاب أو المؤلف والبوت يجيبك فوراً من مخزون ضخم يتوسّع يومياً</div>
+    <div class="fc or rv" data-d="1">
+      <span class="f-ico">🎛️</span>
+      <div class="f-tag" style="color:var(--orange)">02 — اختيار</div>
+      <div class="f-title">اختيار بالأزرار لا بالكتابة</div>
+      <div class="f-desc">تصفّح المكتبة بأزرار تفاعلية — اضغط واختر تصنيفك والبوت يوصلك للكتاب فوراً</div>
     </div>
-
-    <div class="fcard wide rv" data-delay="2">
+    <div class="fc wide rv" data-d="2">
       <span class="f-ico">⚡</span>
       <div>
         <div class="f-tag">03 — تحديث مستمر</div>
@@ -637,125 +341,256 @@ footer a:hover { text-decoration: underline; }
   </div>
 </section>
 
-<!-- FINAL CTA -->
-<div class="cta-block rv">
-  <div class="cta-big">جاهز تبدأ<br><em>القراءة الآن؟</em></div>
-  <div class="cta-sub">انضم لآلاف القراء على تليجرام — مجاناً وبدون تعقيد</div>
-  <div class="cta-btns">
-    <a href="https://t.me/Fff_uiBOT" target="_blank" class="btn-main">🤖 ابدأ مع البوت</a>
-    <a href="https://t.me/admin" target="_blank" class="btn-ghost">📢 تابع القناة</a>
+<section class="steps">
+  <div class="sec-label rv">كيف تبدأ؟</div>
+  <h2 class="sec-title rv">ثلاث خطوات<br><em>وأنت جاهز للقراءة</em></h2>
+  <div class="steps-grid">
+    <div class="step-card rv">
+      <div class="step-num">1</div>
+      <div class="step-title">افتح البوت</div>
+      <div class="step-desc">افتح البوت على تليجرام واضغط على <strong>/start</strong> لتبدأ مباشرة</div>
+    </div>
+    <div class="step-card rv" data-d="1">
+      <div class="step-num">2</div>
+      <div class="step-title">تصفّح بالأزرار</div>
+      <div class="step-desc">تصفّح التصنيفات عبر أزرار تفاعلية سهلة — بضغطات بسيطة تصل لكتابك</div>
+    </div>
+    <div class="step-card rv" data-d="2">
+      <div class="step-num">3</div>
+      <div class="step-title">حمّل واقرأ</div>
+      <div class="step-desc">احصل على الكتاب بصيغة PDF مباشرة في تليجرام — مجاناً وبدون انتظار</div>
+    </div>
+  </div>
+</section>
+
+<section class="cats">
+  <div class="sec-label rv">التصنيفات</div>
+  <h2 class="sec-title rv">تصفّح حسب<br><em>اهتمامك</em></h2>
+  <div class="cat-grid rv">
+    <div class="cat-card"><span class="cat-ico">📖</span><div class="cat-label">روايات</div></div>
+    <div class="cat-card"><span class="cat-ico">🧠</span><div class="cat-label">تطوير الذات</div></div>
+    <div class="cat-card"><span class="cat-ico">💡</span><div class="cat-label">علوم</div></div>
+    <div class="cat-card"><span class="cat-ico">🕌</span><div class="cat-label">إسلاميات</div></div>
+    <div class="cat-card"><span class="cat-ico">💼</span><div class="cat-label">ريادة أعمال</div></div>
+    <div class="cat-card"><span class="cat-ico">🎭</span><div class="cat-label">تاريخ</div></div>
+    <div class="cat-card"><span class="cat-ico">🌍</span><div class="cat-label">جغرافيا</div></div>
+    <div class="cat-card"><span class="cat-ico">🧪</span><div class="cat-label">طب وصحة</div></div>
+    <div class="cat-card"><span class="cat-ico">⚖️</span><div class="cat-label">قانون</div></div>
+    <div class="cat-card"><span class="cat-ico">🎨</span><div class="cat-label">فنون وأدب</div></div>
+    <div class="cat-card"><span class="cat-ico">👶</span><div class="cat-label">أطفال</div></div>
+    <div class="cat-card"><span class="cat-ico">🔬</span><div class="cat-label">تكنولوجيا</div></div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="sec-label rv">آراء المستخدمين</div>
+  <h2 class="sec-title rv">ماذا يقول<br><em>قرّاؤنا؟</em></h2>
+  <div class="testi-wrap rv">
+    <div class="testi-track">
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل بوت جربته، وجدت كل الكتب اللي كنت أدور عليها بضغطة زر!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">أ</div><div><span class="tcard-name">أحمد الشمري</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"التنظيم رهيب، ما توقعت أجد مكتبة بهذا المستوى على تليجرام!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">س</div><div><span class="tcard-name">سارة المطيري</span><span class="tcard-role">طالبة جامعية</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"وفّر عليّ الكثير، كنت أشتري الكتب والآن أحصل عليها مجاناً بجودة ممتازة."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">م</div><div><span class="tcard-name">محمد العتيبي</span><span class="tcard-role">معلم</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"سريع في الاستجابة والكتب تُحمَّل بثوانٍ، تجربة رائعة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا الحربي</span><span class="tcard-role">مترجمة</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 15 كتاب الشهر الماضي بفضل هذا البوت، تحديثات مستمرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">خ</div><div><span class="tcard-name">خالد الدوسري</span><span class="tcard-role">محاسب</span></div></div></div>
+      <!-- duplicate -->
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل بوت جربته، وجدت كل الكتب اللي كنت أدور عليها بضغطة زر!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">أ</div><div><span class="tcard-name">أحمد الشمري</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"التنظيم رهيب، ما توقعت أجد مكتبة بهذا المستوى على تليجرام!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">س</div><div><span class="tcard-name">سارة المطيري</span><span class="tcard-role">طالبة جامعية</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"وفّر عليّ الكثير، كنت أشتري الكتب والآن أحصل عليها مجاناً بجودة ممتازة."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">م</div><div><span class="tcard-name">محمد العتيبي</span><span class="tcard-role">معلم</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"سريع في الاستجابة والكتب تُحمَّل بثوانٍ، تجربة رائعة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا الحربي</span><span class="tcard-role">مترجمة</span></div></div></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 15 كتاب الشهر الماضي بفضل هذا البوت، تحديثات مستمرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">خ</div><div><span class="tcard-name">خالد الدوسري</span><span class="tcard-role">محاسب</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="sec-label rv">الأسئلة الشائعة</div>
+  <h2 class="sec-title rv">كل ما تريد<br><em>معرفته</em></h2>
+  <div class="faq-list rv">
+    <div class="faq-item">
+      <div class="faq-q">كيف أبدأ استخدام البوت؟<span class="faq-icon">+</span></div>
+      <div class="faq-a">افتح البوت على تليجرام واضغط على <strong>/start</strong> للبدء. بعدها ستظهر أزرار تفاعلية — اختر التصنيف الذي يناسبك وصِل لكتابك بضغطات بسيطة.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">هل البوت مجاني تماماً؟<span class="faq-icon">+</span></div>
+      <div class="faq-a">نعم، البوت مجاني بالكامل ولا توجد أي رسوم خفية أو اشتراكات مدفوعة.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">كم عدد الكتب المتاحة؟<span class="faq-icon">+</span></div>
+      <div class="faq-a">تجاوزت المكتبة 10,000 كتاب إلكتروني في مختلف التخصصات، وتتزايد يومياً.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">ما هي صيغة الكتب المتاحة؟<span class="faq-icon">+</span></div>
+      <div class="faq-a">تتوفر الكتب بصيغة PDF لتناسب جميع الأجهزة والتطبيقات.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">هل يمكنني طلب كتاب غير موجود؟<span class="faq-icon">+</span></div>
+      <div class="faq-a">بالطبع! تواصل معنا عبر قناة البوت وسيبذل الفريق قصارى جهده لإيجاده وإضافته.</div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-wrap rv">
+  <div class="cta-block">
+    <div class="cta-big">جاهز تبدأ<br><em>القراءة الآن؟</em></div>
+    <div class="cta-sub">انضم لآلاف القراء على تليجرام — مجاناً وبدون تعقيد</div>
+    <div class="cta-btns">
+      <a href="https://t.me/Fff_uiBOT" target="_blank" rel="noopener noreferrer" class="btn btn-solid">🤖 ابدأ مع البوت</a>
+      <a href="https://t.me/admin"      target="_blank" rel="noopener noreferrer" class="btn btn-outline">📢 تابع القناة</a>
+    </div>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <span>صُنع بـ ❤️ لمحبّي القراءة</span>
-  <span class="footer-sep">|</span>
-  <a href="https://t.me/Fff_uiBOT" target="_blank">@Fff_uiBOT</a>
-  <span class="footer-sep">|</span>
-  <a href="https://t.me/admin" target="_blank">@admin</a>
+  <span class="fsep">|</span>
+  <a href="https://t.me/Fff_uiBOT" target="_blank" rel="noopener noreferrer">@Fff_uiBOT</a>
+  <span class="fsep">|</span>
+  <a href="https://t.me/admin" target="_blank" rel="noopener noreferrer">@admin</a>
 </footer>
 
-<!-- POPUP AREA -->
-<div class="popup-area" id="popups"></div>
+<button id="back-top" aria-label="العودة للأعلى">↑</button>
+<div class="popup-area" id="popups" aria-live="polite"></div>
 
 <script>
-/* ── SCROLL REVEAL ── */
-const rvEls = document.querySelectorAll('.rv');
-const rvObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); rvObs.unobserve(e.target); } });
-}, { threshold: 0.12 });
-rvEls.forEach(el => rvObs.observe(el));
+'use strict';
 
-/* ── COUNT UP ── */
-const countEl = document.querySelector('[data-count]');
-const cntObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const target = +e.target.dataset.count;
-    let v = 0, step = target / 45;
-    const t = setInterval(() => {
-      v += step;
-      if (v >= target) { e.target.textContent = target + 'K+'; clearInterval(t); }
-      else e.target.textContent = Math.floor(v) + 'K+';
-    }, 38);
-    cntObs.unobserve(e.target);
+/* PARTICLES */
+(function(){
+  const cv = document.getElementById('particles');
+  const cx = cv.getContext('2d');
+  const hero = document.querySelector('.hero');
+  let W, H, pts = [];
+  const mouse = {x:null, y:null};
+
+  function resize(){
+    W = cv.width  = hero.offsetWidth;
+    H = cv.height = hero.offsetHeight;
+  }
+
+  const COLS   = [[0,200,245],[255,107,53],[242,247,255],[149,76,233]];
+  const EMOJIS = ['📚','📖','✦','◈','❋'];
+
+  class P {
+    constructor(init){ this._i=init; this.reset(); }
+    reset(){
+      this.x=Math.random()*W; this.y=this._i?Math.random()*H:H+20;
+      this.vx=(Math.random()-.5)*.45; this.vy=-(Math.random()*.55+.15);
+      this.r=Math.random()*2.5+.8;
+      this.col=COLS[Math.floor(Math.random()*COLS.length)];
+      this.isE=Math.random()<.12;
+      this.em=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      this.esz=Math.random()*10+10;
+      this.a=0; this.ma=Math.random()*.45+.08;
+      this.life=0; this.ml=Math.random()*280+180; this._i=false;
+    }
+    update(){
+      if(mouse.x!==null){
+        const dx=this.x-mouse.x, dy=this.y-mouse.y, d=Math.hypot(dx,dy);
+        if(d<130&&d>0){const f=(130-d)/130; this.vx+=(dx/d)*f*.35; this.vy+=(dy/d)*f*.35;}
+      }
+      this.vx*=.985; this.vy*=.985; this.x+=this.vx; this.y+=this.vy; this.life++;
+      if(this.life<50) this.a=(this.life/50)*this.ma;
+      else if(this.life>this.ml-60) this.a=((this.ml-this.life)/60)*this.ma;
+      else this.a=this.ma;
+      if(this.life>=this.ml||this.y<-40) this.reset();
+    }
+    draw(){
+      cx.save(); cx.globalAlpha=Math.max(0,this.a);
+      if(this.isE){ cx.font=this.esz+'px sans-serif'; cx.textAlign='center'; cx.fillText(this.em,this.x,this.y); }
+      else{
+        const[r,g,b]=this.col;
+        cx.shadowBlur=12; cx.shadowColor=`rgba(${r},${g},${b},.7)`;
+        cx.beginPath(); cx.arc(this.x,this.y,this.r,0,Math.PI*2);
+        cx.fillStyle=`rgba(${r},${g},${b},${this.a})`; cx.fill();
+      }
+      cx.restore();
+    }
+  }
+
+  function build(){ pts=[]; const n=Math.min(Math.floor(W*H/12000),75); for(let i=0;i<n;i++) pts.push(new P(true)); }
+  let raf;
+  function loop(){ cx.clearRect(0,0,W,H); pts.forEach(p=>{p.update();p.draw();}); raf=requestAnimationFrame(loop); }
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) cancelAnimationFrame(raf); else loop(); });
+  hero.addEventListener('mousemove',e=>{const rc=hero.getBoundingClientRect(); mouse.x=e.clientX-rc.left; mouse.y=e.clientY-rc.top;},{passive:true});
+  hero.addEventListener('mouseleave',()=>{mouse.x=null;mouse.y=null;});
+  hero.addEventListener('touchmove',e=>{const rc=hero.getBoundingClientRect(),t=e.touches[0]; mouse.x=t.clientX-rc.left; mouse.y=t.clientY-rc.top;},{passive:true});
+  hero.addEventListener('touchend',()=>{mouse.x=null;mouse.y=null;});
+  let rt; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{resize();build();},200);},{passive:true});
+  resize(); build(); loop();
+})();
+
+/* PROGRESS BAR */
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{ const s=document.documentElement; bar.style.width=(s.scrollTop/(s.scrollHeight-s.clientHeight)*100)+'%'; },{passive:true});
+
+/* BACK TO TOP */
+const bt = document.getElementById('back-top');
+window.addEventListener('scroll',()=>{ bt.classList.toggle('show', window.scrollY>400); },{passive:true});
+bt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement, isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el=>el.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
   });
 });
-if (countEl) cntObs.observe(countEl);
 
-/* ── POPUP NOTIFICATIONS ── */
-const container = document.getElementById('popups');
+/* REVEAL */
+const rvObs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('on');rvObs.unobserve(e.target);} }); },{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 
-function showAnimeAd() {
-  const el = document.createElement('a');
-  el.className = 'notif ad-notif';
-  el.href = 'https://t.me/anime6up';
-  el.target = '_blank';
-  el.innerHTML = `
-    <div class="ad-top">
-      <div class="ad-ava">🎌</div>
-      <div class="ad-info">
-        <strong>قناة أنمي</strong>
-        <span>@anime6up · تليجرام</span>
-      </div>
-      <span class="ad-badge">إعلان</span>
-    </div>
-    <div class="ad-desc">أكبر قناة لحلقات الأنمي على تليجرام — حلقات يومية بجودة عالية 🔥</div>
-    <div class="ad-cta">
-      <span class="ad-link">@anime6up</span>
-      <span class="ad-arrow">← انضم الآن</span>
-    </div>
-  `;
-  container.appendChild(el);
-  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
-  setTimeout(() => {
-    el.classList.remove('in');
-    el.classList.add('out');
-    setTimeout(() => el.remove(), 500);
-  }, 6000);
+/* COUNT UP */
+const cntEl=document.querySelector('[data-count]');
+if(cntEl){ const co=new IntersectionObserver(es=>{ es.forEach(e=>{ if(!e.isIntersecting)return; const t=+e.target.dataset.count; let v=0; const id=setInterval(()=>{ v+=t/45; if(v>=t){e.target.textContent=t+'K+';clearInterval(id);}else e.target.textContent=Math.floor(v)+'K+'; },38); co.unobserve(e.target); }); },{threshold:.15}); co.observe(cntEl); }
+
+/* TYPEWRITER */
+const TW=['الكتب','الروايات','المعرفة','التاريخ','العلوم','الأدب','التطوير','الإسلاميات'];
+let ti=0,tc=0,td=false;
+const tw=document.getElementById('tw-word');
+function typewrite(){
+  if(!tw)return;
+  const w=TW[ti%TW.length];
+  if(!td){ tw.textContent=w.slice(0,++tc); if(tc===w.length){setTimeout(()=>{td=true;typewrite();},2000);return;} setTimeout(typewrite,110); }
+  else{ tw.textContent=w.slice(0,--tc); if(tc===0){td=false;ti++;setTimeout(typewrite,300);return;} setTimeout(typewrite,60); }
+}
+setTimeout(typewrite,1200);
+
+/* 3D TILT */
+if(window.matchMedia('(hover:hover)').matches){
+  document.querySelectorAll('.fc').forEach(card=>{
+    const gl=document.createElement('div'); gl.className='card-glare'; card.appendChild(gl);
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-18;
+      const ry=((e.clientX-r.left)/r.width-.5)*18;
+      card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px) scale(1.02)`;
+      gl.style.background=`radial-gradient(circle at ${(e.clientX-r.left)/r.width*100}% ${(e.clientY-r.top)/r.height*100}%,rgba(255,255,255,.10) 0%,transparent 65%)`;
+      gl.style.opacity='1';
+    });
+    card.addEventListener('mouseleave',()=>{ card.style.transform=''; gl.style.opacity='0'; });
+  });
 }
 
-function showKdramaAd() {
-  const el = document.createElement('a');
-  el.className = 'notif ad-notif kdrama';
-  el.href = 'https://t.me/F_4tbot';
-  el.target = '_blank';
-  el.innerHTML = `
-    <div class="ad-top">
-      <div class="ad-ava" style="background:linear-gradient(135deg,#e91e8c,#9c1aaa)">🎬</div>
-      <div class="ad-info">
-        <strong>بوت K-drama</strong>
-        <span>@F_4tbot · تليجرام</span>
-      </div>
-      <span class="ad-badge" style="color:#f472b6;background:rgba(233,30,140,0.12);border-color:rgba(233,30,140,0.3)">إعلان</span>
-    </div>
-    <div class="ad-desc" style="color:rgba(255,200,230,0.75)">أفضل بوت للمسلسلات الكورية — شاهد حلقاتك المفضلة مباشرة من تليجرام 💕</div>
-    <div class="ad-cta">
-      <span class="ad-link" style="color:#f472b6">@F_4tbot</span>
-      <span class="ad-arrow" style="color:#f472b6">← ابدأ الآن</span>
-    </div>
-  `;
-  container.appendChild(el);
-  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in')));
-  setTimeout(() => {
-    el.classList.remove('in');
-    el.classList.add('out');
-    setTimeout(() => el.remove(), 500);
-  }, 6000);
-}
+/* ADS */
+const ADS=[
+  {href:'https://t.me/anime6up',ava:'🎌',avaS:'background:linear-gradient(135deg,#7c3aed,#4f1199);box-shadow:0 0 14px rgba(124,58,237,.5)',name:'قناة أنمي',sub:'@anime6up · تليجرام',desc:'أكبر قناة لحلقات الأنمي على تليجرام — حلقات يومية بجودة عالية 🔥',handle:'@anime6up',hc:'#a855f7',badge:'color:#b47fea;background:rgba(149,76,233,.15);border:1px solid rgba(149,76,233,.3)',footBg:'rgba(124,58,237,.07)',btn:'color:#a855f7;background:rgba(149,76,233,.2);border:1px solid rgba(149,76,233,.3)'},
+  {href:'https://t.me/F_4tbot',ava:'🎬',avaS:'background:linear-gradient(135deg,#e91e8c,#9c1aaa);box-shadow:0 0 14px rgba(233,30,140,.5)',name:'بوت K-drama',sub:'@F_4tbot · تليجرام',desc:'أفضل بوت للمسلسلات الكورية — شاهد حلقاتك المفضلة من تليجرام مباشرة 💕',handle:'@F_4tbot',hc:'#f472b6',badge:'color:#f472b6;background:rgba(233,30,140,.12);border:1px solid rgba(233,30,140,.3)',footBg:'rgba(233,30,140,.06)',btn:'color:#f472b6;background:rgba(233,30,140,.15);border:1px solid rgba(233,30,140,.3)'},
+];
 
-// Show ads in rotation: anime first, then k-drama, repeat
-const adRotation = [showAnimeAd, showKdramaAd];
-let adIdx = 0;
-function showNextAd() {
-  adRotation[adIdx % adRotation.length]();
-  adIdx++;
+const popBox=document.getElementById('popups');
+let ai=0;
+function showAd(d){
+  const el=document.createElement('a');
+  el.className='notif ad'; el.href=d.href; el.target='_blank'; el.rel='noopener noreferrer';
+  el.innerHTML=`<div class="ad-head"><div class="ad-ava" style="${d.avaS}">${d.ava}</div><div class="ad-meta"><strong>${d.name}</strong><span>${d.sub}</span></div><span class="ad-badge" style="${d.badge}">إعلان</span></div><div class="ad-body">${d.desc}</div><div class="ad-foot" style="background:${d.footBg}"><span class="ad-handle" style="color:${d.hc}">${d.handle}</span><span class="ad-cta-btn" style="${d.btn}">انضم الآن ←</span></div>`;
+  popBox.appendChild(el);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('in')));
+  setTimeout(()=>{ el.classList.remove('in'); el.classList.add('out'); setTimeout(()=>el.remove(),380); },6500);
 }
-setTimeout(() => {
-  showNextAd();
-  setInterval(showNextAd, 30000);
-}, 2000);
+function nextAd(){ showAd(ADS[ai++%ADS.length]); }
+setTimeout(()=>{ nextAd(); setInterval(nextAd,30000); },2000);
 </script>
 </body>
 </html>
