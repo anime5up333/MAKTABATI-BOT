@@ -171,18 +171,36 @@ nav {
 .cat-label { font-size:clamp(10px,2.5vw,13px); font-weight:600; color:var(--muted); }
 
 /* TESTIMONIALS */
-.testi { padding:0 var(--px) clamp(48px,8vw,100px); max-width:960px; margin:0 auto; }
-.testi-wrap { overflow:hidden; }
-.testi-track { display:flex; gap:clamp(10px,2vw,18px); animation:testiScroll 32s linear infinite; width:max-content; }
-@media(hover:hover){ .testi-track:hover{animation-play-state:paused;} }
+.testi { padding:0 var(--px) clamp(48px,8vw,100px); max-width:100%; margin:0 auto; overflow:hidden; }
+.testi .sec-label, .testi .sec-title { max-width:960px; margin-left:auto; margin-right:auto; }
+.testi-wrap { overflow:hidden; position:relative; margin-top:clamp(28px,5vw,56px); }
+.testi-wrap::before, .testi-wrap::after {
+  content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;
+}
+.testi-wrap::before { left:0;  background:linear-gradient(to right, var(--bg), transparent); }
+.testi-wrap::after  { right:0; background:linear-gradient(to left,  var(--bg), transparent); }
+.testi-track {
+  display:flex; gap:clamp(12px,2vw,18px);
+  animation:testiScroll 40s linear infinite;
+  width:max-content;
+}
+/* NO hover pause — continuous scroll */
 @keyframes testiScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-.tcard { background:var(--surf); border:1px solid rgba(0,200,245,.1); border-radius:20px; padding:clamp(16px,3vw,26px); width:clamp(220px,60vw,300px); flex-shrink:0; }
+
+.tcard {
+  background:var(--surf);
+  border:1px solid rgba(0,200,245,.1);
+  border-radius:20px;
+  padding:clamp(18px,3vw,26px);
+  width:clamp(240px,65vw,300px);
+  flex-shrink:0;
+}
 .tcard-stars { color:#f59e0b; font-size:13px; margin-bottom:10px; letter-spacing:2px; }
-.tcard-text  { font-size:clamp(12px,2.5vw,14px); color:var(--muted); line-height:1.7; margin-bottom:14px; font-weight:300; font-style:italic; }
+.tcard-text  { font-size:clamp(12px,2.5vw,14px); color:var(--muted); line-height:1.75; margin-bottom:16px; font-weight:300; font-style:italic; }
 .tcard-user  { display:flex; align-items:center; gap:10px; }
-.tcard-ava   { width:34px; height:34px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; color:#fff; }
-.tcard-name  { font-size:13px; font-weight:700; display:block; }
-.tcard-role  { font-size:11px; color:var(--muted); font-weight:300; }
+.tcard-ava   { width:38px; height:38px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:900; color:#fff; }
+.tcard-name  { font-size:13px; font-weight:700; display:block; margin-bottom:2px; }
+.tcard-role  { font-size:11px; color:var(--muted); font-weight:300; display:block; }
 
 /* FAQ */
 .faq { padding:0 var(--px) clamp(48px,8vw,100px); max-width:720px; margin:0 auto; }
@@ -387,17 +405,262 @@ footer a:hover { text-decoration:underline; }
   <h2 class="sec-title rv">ماذا يقول<br><em>قرّاؤنا؟</em></h2>
   <div class="testi-wrap rv">
     <div class="testi-track">
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل بوت جربته، وجدت كل الكتب اللي كنت أدور عليها بضغطة زر!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">أ</div><div><span class="tcard-name">أحمد الشمري</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"التنظيم رهيب، ما توقعت أجد مكتبة بهذا المستوى على تليجرام!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">س</div><div><span class="tcard-name">سارة المطيري</span><span class="tcard-role">طالبة جامعية</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"وفّر عليّ الكثير، كنت أشتري الكتب والآن أحصل عليها مجاناً بجودة ممتازة."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">م</div><div><span class="tcard-name">محمد العتيبي</span><span class="tcard-role">معلم</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"سريع في الاستجابة والكتب تُحمَّل بثوانٍ، تجربة رائعة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا الحربي</span><span class="tcard-role">مترجمة</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 15 كتاب الشهر الماضي بفضل هذا البوت، تحديثات مستمرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">خ</div><div><span class="tcard-name">خالد الدوسري</span><span class="tcard-role">محاسب</span></div></div></div>
-      <!-- duplicate -->
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل بوت جربته، وجدت كل الكتب اللي كنت أدور عليها بضغطة زر!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">أ</div><div><span class="tcard-name">أحمد الشمري</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"التنظيم رهيب، ما توقعت أجد مكتبة بهذا المستوى على تليجرام!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">س</div><div><span class="tcard-name">سارة المطيري</span><span class="tcard-role">طالبة جامعية</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"وفّر عليّ الكثير، كنت أشتري الكتب والآن أحصل عليها مجاناً بجودة ممتازة."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">م</div><div><span class="tcard-name">محمد العتيبي</span><span class="tcard-role">معلم</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"سريع في الاستجابة والكتب تُحمَّل بثوانٍ، تجربة رائعة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا الحربي</span><span class="tcard-role">مترجمة</span></div></div></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 15 كتاب الشهر الماضي بفضل هذا البوت، تحديثات مستمرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">خ</div><div><span class="tcard-name">خالد الدوسري</span><span class="tcard-role">محاسب</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أخيراً بوت يفهم اللي أبيه! ضغطت /start واخترت التصنيف وجاني الكتاب بثواني."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">ع</div><div><span class="tcard-name">عبدالله القحطاني</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"مكتبة ضخمة بأزرار سهلة، ما احتجت أكتب اسم الكتاب — بس اخترت من القائمة وخلاص!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">ر</div><div><span class="tcard-name">ريم الشهراني</span><span class="tcard-role">طالبة دكتوراه</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أنا أستاذ وأحتاج مراجع كثيرة، هذا البوت وفّر عليّ وقتاً وجهداً كبيراً جداً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">ف</div><div><span class="tcard-name">د. فيصل العمري</span><span class="tcard-role">أستاذ جامعي</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 20 كتاب هذا الشهر! الكتب تنزل PDF نظيفة ومرتّبة. أنصح فيه الجميع."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا المالكي</span><span class="tcard-role">كاتبة ومدوّنة</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"قسم الإسلاميات عندهم خيارات ما تخطر على بال. مكتبة شاملة فعلاً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">س</div><div><span class="tcard-name">سلطان الغامدي</span><span class="tcard-role">طالب علم شرعي</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"بوت مميز ومنظّم بشكل احترافي، التحديثات اليومية تضمن دائماً وجود جديد."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#10b981,#3b82f6)">م</div><div><span class="tcard-name">محمد الزهراني</span><span class="tcard-role">مطوّر تطبيقات</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"كنت أصرف على الكتب الورقية، الآن أقرأ أكثر بدون تكلفة. الأزرار سهّلت عليّ الاختيار."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f97316,#ec4899)">ه</div><div><span class="tcard-name">هند العتيبي</span><span class="tcard-role">ربّة منزل ومثقّفة</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أشاركه مع كل أصدقائي. التحديثات اليومية تضمن دائماً وجود جديد — لم أخيب مرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)">ب</div><div><span class="tcard-name">بدر الحربي</span><span class="tcard-role">محاسب قانوني</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل اكتشاف لي على تليجرام، الأزرار التفاعلية سهّلت عليّ الوصول لأي كتاب."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#dc2626,#ea580c)">خ</div><div><span class="tcard-name">خالد المنصور</span><span class="tcard-role">مدير مشاريع</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"ما صدّقت إن مكتبة بهذا الحجم متاحة مجاناً على تليجرام. شكراً للقائمين عليه!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0891b2,#7c3aed)">ل</div><div><span class="tcard-name">لمى السعيد</span><span class="tcard-role">محامية</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"سرعة الاستجابة خيالية، ما أتوقع بوت يكون بهذا المستوى. استمروا على هذا الشغل الجميل!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#16a34a,#ca8a04)">ي</div><div><span class="tcard-name">يوسف العنزي</span><span class="tcard-role">صيدلاني</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"تنظيم احترافي وتنوّع كبير في التصنيفات. وجدت كتبًا ما توقعت إيجادها عربياً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#be185d,#1d4ed8)">ش</div><div><span class="tcard-name">شيخة البلوشي</span><span class="tcard-role">معلمة لغة عربية</span></div></div></div>
+
+      <!-- duplicate set for seamless infinite loop -->
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أخيراً بوت يفهم اللي أبيه! ضغطت /start واخترت التصنيف وجاني الكتاب بثواني."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">ع</div><div><span class="tcard-name">عبدالله القحطاني</span><span class="tcard-role">مهندس برمجيات</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"مكتبة ضخمة بأزرار سهلة، ما احتجت أكتب اسم الكتاب — بس اخترت من القائمة وخلاص!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">ر</div><div><span class="tcard-name">ريم الشهراني</span><span class="tcard-role">طالبة دكتوراه</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أنا أستاذ وأحتاج مراجع كثيرة، هذا البوت وفّر عليّ وقتاً وجهداً كبيراً جداً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">ف</div><div><span class="tcard-name">د. فيصل العمري</span><span class="tcard-role">أستاذ جامعي</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"انتهيت من 20 كتاب هذا الشهر! الكتب تنزل PDF نظيفة ومرتّبة. أنصح فيه الجميع."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div><div><span class="tcard-name">نورا المالكي</span><span class="tcard-role">كاتبة ومدوّنة</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"قسم الإسلاميات عندهم خيارات ما تخطر على بال. مكتبة شاملة فعلاً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">س</div><div><span class="tcard-name">سلطان الغامدي</span><span class="tcard-role">طالب علم شرعي</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"بوت مميز ومنظّم بشكل احترافي، التحديثات اليومية تضمن دائماً وجود جديد."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#10b981,#3b82f6)">م</div><div><span class="tcard-name">محمد الزهراني</span><span class="tcard-role">مطوّر تطبيقات</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"كنت أصرف على الكتب الورقية، الآن أقرأ أكثر بدون تكلفة. الأزرار سهّلت عليّ الاختيار."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#f97316,#ec4899)">ه</div><div><span class="tcard-name">هند العتيبي</span><span class="tcard-role">ربّة منزل ومثقّفة</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أشاركه مع كل أصدقائي. التحديثات اليومية تضمن دائماً وجود جديد — لم أخيب مرة!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)">ب</div><div><span class="tcard-name">بدر الحربي</span><span class="tcard-role">محاسب قانوني</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"أفضل اكتشاف لي على تليجرام، الأزرار التفاعلية سهّلت عليّ الوصول لأي كتاب."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#dc2626,#ea580c)">خ</div><div><span class="tcard-name">خالد المنصور</span><span class="tcard-role">مدير مشاريع</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"ما صدّقت إن مكتبة بهذا الحجم متاحة مجاناً على تليجرام. شكراً للقائمين عليه!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#0891b2,#7c3aed)">ل</div><div><span class="tcard-name">لمى السعيد</span><span class="tcard-role">محامية</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><div class="tcard-text">"سرعة الاستجابة خيالية، ما أتوقع بوت يكون بهذا المستوى. استمروا على هذا الشغل الجميل!"</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#16a34a,#ca8a04)">ي</div><div><span class="tcard-name">يوسف العنزي</span><span class="tcard-role">صيدلاني</span></div></div></div>
+
+      <div class="tcard"><div class="tcard-stars">★★★★☆</div><div class="tcard-text">"تنظيم احترافي وتنوّع كبير في التصنيفات. وجدت كتبًا ما توقعت إيجادها عربياً."</div><div class="tcard-user"><div class="tcard-ava" style="background:linear-gradient(135deg,#be185d,#1d4ed8)">ش</div><div><span class="tcard-name">شيخة البلوشي</span><span class="tcard-role">معلمة لغة عربية</span></div></div></div>
+
+    </div>
+  </div>
+</section>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أخيراً بوت يفهم اللي أبيه! ضغطت /start واخترت التصنيف وجاني الكتاب بثواني. ما توقعت يكون بهالسهولة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">ع</div>
+          <div class="tcard-info">
+            <span class="tcard-name">عبدالله القحطاني</span>
+            <span class="tcard-role">مهندس برمجيات</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">مكتبة ضخمة بأزرار سهلة جداً، ما احتجت أكتب اسم الكتاب — بس اخترت من القائمة وخلاص. رائعة فعلاً!</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">ر</div>
+          <div class="tcard-info">
+            <span class="tcard-name">ريم الشهراني</span>
+            <span class="tcard-role">طالبة دكتوراه</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أنا أستاذ وأحتاج مراجع كثيرة، هذا البوت وفّر عليّ وقتاً وجهداً كبيراً. التنظيم ممتاز والتحديث مستمر.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">ف</div>
+          <div class="tcard-info">
+            <span class="tcard-name">د. فيصل العمري</span>
+            <span class="tcard-role">أستاذ جامعي</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">انتهيت من 20 كتاب هذا الشهر! البوت سريع جداً والكتب تنزل بصيغة PDF نظيفة. أنصح فيه كل محب للقراءة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div>
+          <div class="tcard-info">
+            <span class="tcard-name">نورا المالكي</span>
+            <span class="tcard-role">كاتبة ومدوّنة</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">شيء ما كنت أتوقعه على تليجرام. مكتبة كاملة بأزرار واضحة، قسم الإسلاميات عندهم خيارات ما تخطر على بال.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">س</div>
+          <div class="tcard-info">
+            <span class="tcard-name">سلطان الغامدي</span>
+            <span class="tcard-role">طالب علم شرعي</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★☆</div>
+        <div class="tcard-text">بوت مميز ومنظّم بشكل احترافي. أتمنى يضيفون المزيد من كتب التقنية والبرمجة، بس بشكل عام تجربة ممتازة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#10b981,#3b82f6)">م</div>
+          <div class="tcard-info">
+            <span class="tcard-name">محمد الزهراني</span>
+            <span class="tcard-role">مطوّر تطبيقات</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">كنت أصرف كثيراً على الكتب الورقية، الآن أقرأ أكثر بدون تكلفة. الأزرار سهّلت عليّ اختيار ما يناسبني.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#f97316,#ec4899)">ه</div>
+          <div class="tcard-info">
+            <span class="tcard-name">هند العتيبي</span>
+            <span class="tcard-role">ربّة منزل ومثقّفة</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أشاركه مع كل أصدقائي المهتمين بالقراءة. التحديثات اليومية تضمن دائماً وجود جديد — لم أخيب مرة!</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)">ب</div>
+          <div class="tcard-info">
+            <span class="tcard-name">بدر الحربي</span>
+            <span class="tcard-role">محاسب قانوني</span>
+            <span class="tcard-badge">✓ مستخدم موثّق</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- duplicate for seamless loop -->
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أخيراً بوت يفهم اللي أبيه! ضغطت /start واخترت التصنيف وجاني الكتاب بثواني. ما توقعت يكون بهالسهولة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">ع</div>
+          <div class="tcard-info"><span class="tcard-name">عبدالله القحطاني</span><span class="tcard-role">مهندس برمجيات</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">مكتبة ضخمة بأزرار سهلة جداً، ما احتجت أكتب اسم الكتاب — بس اخترت من القائمة وخلاص. رائعة فعلاً!</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#e91e8c,#7c3aed)">ر</div>
+          <div class="tcard-info"><span class="tcard-name">ريم الشهراني</span><span class="tcard-role">طالبة دكتوراه</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أنا أستاذ وأحتاج مراجع كثيرة، هذا البوت وفّر عليّ وقتاً وجهداً كبيراً. التنظيم ممتاز والتحديث مستمر.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#059669,#0284c7)">ف</div>
+          <div class="tcard-info"><span class="tcard-name">د. فيصل العمري</span><span class="tcard-role">أستاذ جامعي</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">انتهيت من 20 كتاب هذا الشهر! البوت سريع جداً والكتب تنزل بصيغة PDF نظيفة. أنصح فيه كل محب للقراءة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ن</div>
+          <div class="tcard-info"><span class="tcard-name">نورا المالكي</span><span class="tcard-role">كاتبة ومدوّنة</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">شيء ما كنت أتوقعه على تليجرام. مكتبة كاملة بأزرار واضحة، قسم الإسلاميات عندهم خيارات ما تخطر على بال.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#0ea5e9,#6366f1)">س</div>
+          <div class="tcard-info"><span class="tcard-name">سلطان الغامدي</span><span class="tcard-role">طالب علم شرعي</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★☆</div>
+        <div class="tcard-text">بوت مميز ومنظّم بشكل احترافي. أتمنى يضيفون المزيد من كتب التقنية والبرمجة، بس بشكل عام تجربة ممتازة.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#10b981,#3b82f6)">م</div>
+          <div class="tcard-info"><span class="tcard-name">محمد الزهراني</span><span class="tcard-role">مطوّر تطبيقات</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">كنت أصرف كثيراً على الكتب الورقية، الآن أقرأ أكثر بدون تكلفة. الأزرار سهّلت عليّ اختيار ما يناسبني.</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#f97316,#ec4899)">ه</div>
+          <div class="tcard-info"><span class="tcard-name">هند العتيبي</span><span class="tcard-role">ربّة منزل ومثقّفة</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-text">أشاركه مع كل أصدقائي المهتمين بالقراءة. التحديثات اليومية تضمن دائماً وجود جديد — لم أخيب مرة!</div>
+        <div class="tcard-divider"></div>
+        <div class="tcard-user">
+          <div class="tcard-ava" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)">ب</div>
+          <div class="tcard-info"><span class="tcard-name">بدر الحربي</span><span class="tcard-role">محاسب قانوني</span><span class="tcard-badge">✓ مستخدم موثّق</span></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
